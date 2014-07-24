@@ -78,5 +78,21 @@ public class CustomerRepositoryTest {
         repository.save(new Customer("Bruce", "Willis", 42));
     }
 
+    @Test
+    public void testFindByFirstNameAndLastName() throws Exception {
+        Customer customer = repository.findByFirstNameAndLastName("Kimberli", "Bauer");
+        Assert.assertThat(customer, Matchers.is(kimberliBauer));
+    }
 
+    @Test
+    public void testFindByAgeBetween() throws Exception {
+        List<Customer> customers = repository.findByAgeBetween(18, 21);
+        Assert.assertThat(customers, Matchers.containsInAnyOrder(davidPalmer));
+    }
+
+    @Test
+    public void testFindByFirstNameLikeOrLastNameLike() throws Exception {
+        List<Customer> customers = repository.findByFirstNameLikeOrLastNameLike("Chloe", "Palmer");
+        Assert.assertThat(customers, Matchers.containsInAnyOrder(chloeOBrian, davidPalmer));
+    }
 }
