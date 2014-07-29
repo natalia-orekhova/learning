@@ -5,5 +5,9 @@ import ru.tata.spring.model.Supply;
 import java.util.List;
 
 public interface SupplyRepositoryCustom {
+    
     List<Supply> getNoClosed();
+
+    boolean existByName(String number);
+    
 }

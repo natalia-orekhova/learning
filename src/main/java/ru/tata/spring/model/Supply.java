@@ -32,19 +32,9 @@ public class Supply {
     @Column(name = "positions")
     @OneToMany(mappedBy = "supply")
     @NotNull
-    private List<SupplyPosition> positions;
+    private List<SupplyPosition> positions = Lists.<SupplyPosition>newArrayList();
 
     public Supply() {
-
-    }
-
-    public Supply(String name, State state, Date created, Date arrived, Date closed) {
-
-        this.name = name;
-        this.state = state;
-        this.created = created;
-        this.arrived = arrived;
-        this.closed = closed;
     }
 
     public Supply(String name, State state, Date created, Date arrived, Date closed, SupplyPosition... positions) {
@@ -54,6 +44,12 @@ public class Supply {
         this.arrived = arrived;
         this.closed = closed;
         this.positions = Lists.newArrayList(positions);
+    }
+
+    public Supply(String name) {
+        setName(name);
+        setState(State.CREATED);
+        setCreated(new Date());
     }
 
     public String getName() {

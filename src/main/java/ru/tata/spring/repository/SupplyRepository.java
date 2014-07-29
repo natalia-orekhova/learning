@@ -7,7 +7,7 @@ import ru.tata.spring.model.Supply;
 import java.util.Date;
 import java.util.List;
 
-public interface SupplyRepository extends CrudRepository<Supply, Long>, SupplyRepositoryCustom{
+public interface SupplyRepository extends CrudRepository<Supply, Long>, SupplyRepositoryCustom {
 
     Supply findByName(String name);
 
