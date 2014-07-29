@@ -28,11 +28,13 @@ public class SupplyRepositoryTest {
 
     private Supply supply1;
     private Supply supply2;
+    private Supply supply3;
 
     @Before
     public void setUp() throws Exception {
         supply1 = repository.save(new Supply("supply1", State.CREATED, new Date(), null, null, new SupplyPosition("suppos1", 1, 0)));
         supply2 = repository.save(new Supply("supply2", State.PROCESSING, new Date(), new Date(), new Date(), new SupplyPosition( "suppos2", 1, 0)));
+        supply3 = repository.save(new Supply("supply3", State.CLOSED, new Date(), new Date(), new Date(), new SupplyPosition( "suppos3", 1, 0)));
     }
 
     @Test
@@ -51,5 +53,11 @@ public class SupplyRepositoryTest {
     public void testFindByStateAndCreatedBetween() throws Exception {
         List<Supply> sp = repository.findByStateAndCreatedBetween(State.CREATED, new DateTime().minusMonths(1).toDate(), new Date());
         Assert.assertThat(sp, Matchers.containsInAnyOrder(supply1));
+    }
+
+    @Test
+    public void testCustomSelect() throws Exception {
+        List<Supply> sp = repository.getNoClosed();
+        Assert.assertThat(sp, Matchers.containsInAnyOrder(supply1, supply2));
     }
 }
