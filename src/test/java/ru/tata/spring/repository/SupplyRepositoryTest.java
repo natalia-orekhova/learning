@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tata.spring.Application;
-import ru.tata.spring.model.State;
+import ru.tata.spring.model.SupplyState;
 import ru.tata.spring.model.Supply;
 import ru.tata.spring.model.SupplyPosition;
 
@@ -34,9 +34,9 @@ public class SupplyRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        supply1 = repository.save(new Supply("supply1", State.CREATED, new Date(), null, null, new SupplyPosition("suppos1", 1, 0)));
-        supply2 = repository.save(new Supply("supply2", State.PROCESSING, new Date(), new Date(), new Date(), new SupplyPosition( "suppos2", 1, 0)));
-        supply3 = repository.save(new Supply("supply3", State.CLOSED, new Date(), new Date(), new Date(), new SupplyPosition( "suppos3", 1, 0)));
+        supply1 = repository.save(new Supply("supply1", SupplyState.CREATED, new Date(), null, null, new SupplyPosition("suppos1", 1, 0)));
+        supply2 = repository.save(new Supply("supply2", SupplyState.PROCESSING, new Date(), new Date(), new Date(), new SupplyPosition( "suppos2", 1, 0)));
+        supply3 = repository.save(new Supply("supply3", SupplyState.CLOSED, new Date(), new Date(), new Date(), new SupplyPosition( "suppos3", 1, 0)));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class SupplyRepositoryTest {
 
     @Test
     public void testFindByStateAndCreatedBetween() throws Exception {
-        List<Supply> sp = repository.findByStateAndCreatedBetween(State.CREATED, new DateTime().minusMonths(1).toDate(), new Date());
+        List<Supply> sp = repository.findByStateAndCreatedBetween(SupplyState.CREATED, new DateTime().minusMonths(1).toDate(), new Date());
         Assert.assertThat(sp, Matchers.containsInAnyOrder(supply1));
     }
 

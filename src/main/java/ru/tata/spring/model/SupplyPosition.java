@@ -39,6 +39,14 @@ public class SupplyPosition {
         this.acceptedAmount = acceptedAmount;
     }
 
+    public SupplyPosition(Supply supply, String article, int declaredAmount) {
+        this.supply = supply;
+        this.article = article;
+        this.declaredAmount = declaredAmount;
+        this.acceptedAmount = 0;
+        supply.getPositions().add(this);
+    }
+
     public long getId() {
         return id;
     }
@@ -79,7 +87,7 @@ public class SupplyPosition {
     public String toString() {
         return Objects.toStringHelper(this)
                 .add("id", id)
-                .add("supply", supply)
+                .add("supply", supply.getName())
                 .add("article", article)
                 .add("declaredAmount", declaredAmount)
                 .add("acceptedAmount", acceptedAmount)

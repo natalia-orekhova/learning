@@ -22,7 +22,7 @@ public class Supply {
     @Column(name = "state", nullable = false)
     @NotNull
     @Enumerated(EnumType.STRING)
-    private State state;
+    private SupplyState state;
     @Column(name = "created")
     private Date created;
     @Column(name = "arrived")
@@ -37,7 +37,7 @@ public class Supply {
     public Supply() {
     }
 
-    public Supply(String name, State state, Date created, Date arrived, Date closed, SupplyPosition... positions) {
+    public Supply(String name, SupplyState state, Date created, Date arrived, Date closed, SupplyPosition... positions) {
         this.name = name;
         this.state = state;
         this.created = created;
@@ -48,7 +48,7 @@ public class Supply {
 
     public Supply(String name) {
         setName(name);
-        setState(State.CREATED);
+        setState(SupplyState.CREATED);
         setCreated(new Date());
     }
 
@@ -60,11 +60,11 @@ public class Supply {
         this.name = name;
     }
 
-    public State getState() {
+    public SupplyState getState() {
         return state;
     }
 
-    public void setState(State state) {
+    public void setState(SupplyState state) {
         this.state = state;
     }
 

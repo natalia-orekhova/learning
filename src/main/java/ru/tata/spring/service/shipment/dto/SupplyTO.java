@@ -6,20 +6,20 @@ import java.util.Collection;
 
 public class SupplyTO {
     private String name;
+    private Collection<SupplyPositionTO> positions;
 
-    private Collection<SupplyPositionTo> positions;
-
-    public SupplyTO(String name, SupplyPositionTo... positions) {
+    public SupplyTO(String name, SupplyPositionTO... positions) {
         this.name = name;
         this.positions = Lists.newArrayList(positions);
-        //TODO
     }
 
     public String getName() {
         return name;
     }
 
-    public Collection<SupplyPositionTo> getPositions() {
+    public Collection<SupplyPositionTO> getPositions() {
         return positions;
     }
+
+    //todo add another fields?
 }

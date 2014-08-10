@@ -1,16 +1,14 @@
 package ru.tata.spring.repository;
 
-import ru.tata.spring.model.State;
+import ru.tata.spring.model.SupplyState;
 import ru.tata.spring.model.Supply;
 
+import javax.annotation.Nonnull;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Repository
 public class SupplyRepositoryImpl implements SupplyRepositoryCustom {
@@ -27,11 +25,11 @@ public class SupplyRepositoryImpl implements SupplyRepositoryCustom {
                     "where s.state <> :finish",
                     Supply.class
             )
-            .setParameter("finish", State.CLOSED)
+            .setParameter("finish", SupplyState.CLOSED)
             .getResultList();
     }
 
-    public boolean existByName(String name) {
+    public boolean existByName(@Nonnull String name) {
         return em
             .createQuery("" +
                     "select " +

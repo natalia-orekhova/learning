@@ -1,6 +1,6 @@
 package ru.tata.spring.model;
 
-public enum State {
+public enum SupplyState {
     CREATED,
     ARRIVED,
     PROCESSING,

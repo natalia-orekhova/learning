@@ -2,12 +2,15 @@ package ru.tata.spring.repository;
 
 import ru.tata.spring.model.Supply;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public interface SupplyRepositoryCustom {
-    
+
+    @Nonnull
     List<Supply> getNoClosed();
 
-    boolean existByName(String number);
+    @Nonnull
+    boolean existByName(@Nonnull String number);
     
 }
