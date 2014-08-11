@@ -1,0 +1,24 @@
+spring:
+    application:
+        name: learning
+    datasource:
+        driverClassName: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:5432/learning
+        username: jboss
+        password: password
+    jpa:
+        openInView: true
+        show-sql: false
+        database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+        database: POSTGRESQL
+        hibernate:
+            ddl-auto: validate
+    data:
+        jpa:
+            repositories:
+                enabled: true
+
+http.mappers.json-pretty-print: true
+
+server:
+    port: 9000
