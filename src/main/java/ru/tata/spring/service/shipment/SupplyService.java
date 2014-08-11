@@ -1,5 +1,6 @@
 package ru.tata.spring.service.shipment;
 
+import ru.tata.spring.model.ProcessPositionType;
 import ru.tata.spring.service.exception.BusinessException;
 import ru.tata.spring.service.shipment.dto.SupplyTO;
 
@@ -15,6 +16,6 @@ public interface SupplyService {
 
     void closeSupply(@Nonnull String name) throws BusinessException;
 
-    void processSupplyPosition(@Nonnull String name, @Nonnull String article) throws BusinessException;
+    ProcessPositionType processSupplyPosition(@Nonnull String name, @Nonnull String article) throws BusinessException;
 
 }

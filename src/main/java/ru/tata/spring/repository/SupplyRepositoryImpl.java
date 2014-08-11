@@ -1,9 +1,11 @@
 package ru.tata.spring.repository;
 
+import ru.tata.spring.model.SupplyPosition;
 import ru.tata.spring.model.SupplyState;
 import ru.tata.spring.model.Supply;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;

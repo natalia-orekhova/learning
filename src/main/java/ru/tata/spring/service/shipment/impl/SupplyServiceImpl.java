@@ -3,6 +3,7 @@ package ru.tata.spring.service.shipment.impl;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.tata.spring.model.ProcessPositionType;
 import ru.tata.spring.model.Supply;
 import ru.tata.spring.model.SupplyPosition;
 import ru.tata.spring.model.SupplyState;
@@ -33,7 +34,9 @@ public class SupplyServiceImpl implements SupplyService {
         }
         Supply supply = supplyRepository.save(new Supply(to.getName()));
         for (SupplyPositionTO positionTO : to.getPositions()) {
-            supplyPositionRepository.save(new SupplyPosition(supply, positionTO.getArticle(), positionTO.getDeclaredAmount()));
+            String article = positionTO.getArticle();
+            checkArticleAlreadyExist(article);
+            supplyPositionRepository.save(new SupplyPosition(supply, article, positionTO.getDeclaredAmount()));
         }
     }
 
@@ -45,7 +48,6 @@ public class SupplyServiceImpl implements SupplyService {
         checkSupplyInCorrectState(supply, SupplyState.CREATED);
         supply.setArrived(new Date());
         supply.setState(SupplyState.ARRIVED);
-        //todo after set... for supply is it necessary to save somehow supply
     }
 
     @Override
@@ -55,7 +57,6 @@ public class SupplyServiceImpl implements SupplyService {
         Supply supply = supplyRepository.findByName(name);
         checkSupplyInCorrectState(supply, SupplyState.ARRIVED);
         supply.setState(SupplyState.PROCESSING);
-        //todo is there anything else to do
     }
 
     @Override
@@ -66,33 +67,38 @@ public class SupplyServiceImpl implements SupplyService {
         checkSupplyInCorrectState(supply, SupplyState.PROCESSING);
         supply.setState(SupplyState.CLOSED);
         supply.setClosed(new Date());
-        //todo is there anything else to do
     }
 
     @Override
-    public void processSupplyPosition(@Nonnull String name, @Nonnull String article) throws BusinessException {
+    public ProcessPositionType processSupplyPosition(@Nonnull String name, @Nonnull String article) throws BusinessException {
         Preconditions.checkNotNull(name, "Supply name is not defined");
         Preconditions.checkNotNull(name, "Position article is not defined");
         checkSupplyExist(name);
         checkSupplyInCorrectState(supplyRepository.findByName(name), SupplyState.PROCESSING);
-        if(!supplyPositionRepository.existByArticle(article)){
+        SupplyPosition sp = supplyPositionRepository.findByArticleAndSupplyName(name, article);
+        if(sp == null){
             throw new SupplyPositionDoesNotExistException(article, name);
         }
-        SupplyPosition sp = supplyPositionRepository.findByArticle(article);
         //noinspection ConstantConditions
-        sp.setAcceptedAmount(sp.getAcceptedAmount()+1);
-        //todo ???
+        sp.setAcceptedAmount(sp.getAcceptedAmount() + 1);
+        return sp.getAcceptedAmount() > sp.getDeclaredAmount() ? ProcessPositionType.SURPLUS : ProcessPositionType.NORMAL;
     }
 
     private void checkSupplyExist(String name) throws SupplyDoesNotExistException {
-        if(!supplyRepository.existByName(name)){
+        if (supplyRepository.findByName(name) == null) {
             throw new SupplyDoesNotExistException(name);
         }
     }
 
     private void checkSupplyInCorrectState(Supply supply, SupplyState expectedState) throws SupplyWrongStateException {
-        if(!expectedState.equals(supply.getState())){
+        if (!expectedState.equals(supply.getState())) {
             throw new SupplyWrongStateException(supply.getName(), supply.getState(), expectedState);
+        }
+    }
+
+    private void checkArticleAlreadyExist(String article) throws SupplyPositionAlreadyExistException {
+        if (supplyPositionRepository.findByArticle(article) != null) {
+            throw new SupplyPositionAlreadyExistException(article);
         }
     }
 }
