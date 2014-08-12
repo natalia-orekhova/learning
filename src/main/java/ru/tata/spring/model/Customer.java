@@ -1,5 +1,6 @@
 package ru.tata.spring.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.Length;
 
@@ -16,12 +17,15 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty("customer_id")
     private long id;
     @NotNull
     @Length(min = 4, max = 25)
+    @JsonProperty("first_name")
     private String firstName;
     @NotNull
     @Length(min = 4, max = 25)
+    @JsonProperty("last_name")
     private String lastName;
     @Min(0)
     private int age;
