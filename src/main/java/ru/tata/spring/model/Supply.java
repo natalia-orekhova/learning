@@ -2,6 +2,7 @@ package ru.tata.spring.model;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,13 +10,9 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
-public class Supply {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "supply_id", nullable = false)
-    private long id;
+@Table(name = "supply", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
+//@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+public class Supply extends AbstractPersistable<Long>{
     @Column(name = "name", unique = true, nullable = false)
     @NotNull
     private String name;
@@ -29,10 +26,9 @@ public class Supply {
     private Date arrived;
     @Column(name = "closed")
     private Date closed;
-    @Column(name = "positions")
-    @OneToMany(mappedBy = "supply")
     @NotNull
-    private List<SupplyPosition> positions = Lists.<SupplyPosition>newArrayList();
+    @OneToMany(mappedBy = "supply")
+    private List<SupplyPosition> positions = Lists.newArrayList();
 
     public Supply() {
     }
@@ -92,10 +88,6 @@ public class Supply {
         this.closed = closed;
     }
 
-    public long getId() {
-        return id;
-    }
-
     public List<SupplyPosition> getPositions() {
         return positions;
     }
@@ -107,7 +99,7 @@ public class Supply {
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
-                .add("id", id)
+                .add("id", getId())
                 .add("name", name)
                 .add("state", state)
                 .add("created", created)

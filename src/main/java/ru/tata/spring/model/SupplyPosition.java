@@ -1,24 +1,23 @@
 package ru.tata.spring.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.Objects;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(uniqueConstraints = {
+@Table(name = "supply_position", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"article"})
 })
-public class SupplyPosition {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "supply_position_id", nullable = false)
-    private long id;
+//@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+public class SupplyPosition extends AbstractPersistable<Long>{
     @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "supply_id")
+    @JsonSerialize(as=AbstractPersistable.class)
     private Supply supply;
     @Column(name = "article", nullable = false, unique = true)
     private String article;
@@ -45,10 +44,6 @@ public class SupplyPosition {
         this.declaredAmount = declaredAmount;
         this.acceptedAmount = 0;
         supply.getPositions().add(this);
-    }
-
-    public long getId() {
-        return id;
     }
 
     public Supply getSupply() {
@@ -86,7 +81,7 @@ public class SupplyPosition {
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
-                .add("id", id)
+                .add("id", getId())
                 .add("supply", supply.getName())
                 .add("article", article)
                 .add("declaredAmount", declaredAmount)

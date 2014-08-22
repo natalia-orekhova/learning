@@ -11,4 +11,7 @@ public interface SupplyPositionRepository extends CrudRepository<SupplyPosition,
     @Nullable
     SupplyPosition findByArticle(@Nonnull String article);
 
+    @Nullable
+    SupplyPosition findById(long id);
+
 }

@@ -19,4 +19,7 @@ public interface SupplyRepository extends CrudRepository<Supply, Long>, SupplyRe
 
     @Nonnull
     List<Supply> findByStateAndCreatedBetween(SupplyState state, Date createdFrom, Date createdTo);
+
+    @Nullable
+    Supply findById(long id);
 }
