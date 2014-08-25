@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tata.spring.Application;
-import ru.tata.spring.model.SupplyState;
 import ru.tata.spring.model.Supply;
 import ru.tata.spring.model.SupplyPosition;
+import ru.tata.spring.model.SupplyState;
 
 import java.util.Date;
 import java.util.List;

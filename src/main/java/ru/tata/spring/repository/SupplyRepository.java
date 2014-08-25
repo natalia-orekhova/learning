@@ -1,15 +1,15 @@
 package ru.tata.spring.repository;
 
-import org.springframework.data.repository.CrudRepository;
-import ru.tata.spring.model.SupplyState;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import ru.tata.spring.model.Supply;
+import ru.tata.spring.model.SupplyState;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Date;
 import java.util.List;
 
-public interface SupplyRepository extends CrudRepository<Supply, Long>, SupplyRepositoryCustom {
+public interface SupplyRepository extends PagingAndSortingRepository<Supply, Long>, SupplyRepositoryCustom {
 
     @Nullable
     Supply findByName(String name);
